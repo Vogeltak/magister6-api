@@ -14,22 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import requests, json
+import magister
 
-class Magister(object):
-	account_data = None
+school_url = input('School URL: ')
+username = input('Gebruikersnaam: ')
+password = input('Wachtwoord: ')
 
-	def __init__(self, schoolurl, username, password, stay_loggedin = False):
-		self.schoolurl = schoolurl
-		self.username = username
-		self.password = password
+m = magister.Magister(school_url, username, password)
 
-		payload = {
-			'Gebruikersnaam': username,
-			'Wachtwoord': password,
-			'IngelogdBlijven': str(stay_loggedin).lower()
-		}
-
-		with requests.Session() as s:
-			s.post('https://{0}/api/sessie'.format(schoolurl), data = payload)
-			self.account_data = json.loads(s.get('https://{0}/api/account'.format(schoolurl)).text)
+print("Goedendag " + str(m.account_data['Persoon']['Roepnaam']))
