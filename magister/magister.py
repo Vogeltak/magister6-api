@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import requests, json
-from . import appointment
+from . import appointment, roosterwijziging
 
 class Magister(object):
 	account_data = None
@@ -55,3 +55,14 @@ class Magister(object):
 		url = "{0}/afspraken?van={1}&tot={2}".format(self.__person_url, dateConvert(begin), dateConvert(end))
 		with self.__sesion as s:
 			return [appointment.Appointment.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
+
+	# What is it in English?
+	def roosterwijzigingen(self):
+		"""
+			Get's the 'roosterwijzigingen' from Magister
+
+			There will probably need to be an option to ask for 'roosterwijzigingen' for a specific day
+		"""
+		url = "{0}/roosterwijzigingen".format(self.__person_url)
+		with self.__session as s:
+			return [roosterwijziging.Roosterwijziging.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
