@@ -16,7 +16,6 @@ limitations under the License.
 
 from magister import *
 from datetime import datetime
-import json
 
 school_prefix = input('School prefix: ')
 username = input('Gebruikersnaam: ')
