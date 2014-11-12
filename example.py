@@ -14,7 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import magister
+from magister import *
+from datetime import datetime
+import json
 
 school_prefix = input('School prefix: ')
 username = input('Gebruikersnaam: ')
@@ -23,3 +25,4 @@ password = input('Wachtwoord: ')
 m = magister.Magister(school_prefix, username, password)
 
 print("Goedendag " + str(m.account_data['Persoon']['Roepnaam']))
+print(m.appointments(datetime.now())[3].description)
