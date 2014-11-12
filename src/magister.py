@@ -19,8 +19,8 @@ import requests, json
 class Magister(object):
 	account_data = None
 
-	def __init__(self, schoolurl, username, password, stay_loggedin = False):
-		self.schoolurl = schoolurl
+	def __init__(self, schoolprefix, username, password, stay_loggedin = False):
+		self.schoolprefix = schoolprefix
 		self.username = username
 		self.password = password
 
@@ -31,5 +31,5 @@ class Magister(object):
 		}
 
 		with requests.Session() as s:
-			s.post('https://{0}/api/sessie'.format(schoolurl), data = payload)
-			self.account_data = json.loads(s.get('https://{0}/api/account'.format(schoolurl)).text)
+			s.post('https://{0}/api/sessie'.format(schoolprefix), data = payload)
+			self.account_data = json.loads(s.get('https://{0}.magister.net/api/account'.format(schoolprefix)).text)

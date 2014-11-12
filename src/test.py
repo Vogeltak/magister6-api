@@ -16,10 +16,10 @@ limitations under the License.
 
 import magister
 
-school_url = input('School URL: ')
+school_prefix = input('School prefix: ')
 username = input('Gebruikersnaam: ')
 password = input('Wachtwoord: ')
 
-m = magister.Magister(school_url, username, password)
+m = magister.Magister(school_prefix, username, password)
 
 print("Goedendag " + str(m.account_data['Persoon']['Roepnaam']))
