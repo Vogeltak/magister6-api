@@ -31,5 +31,5 @@ class Magister(object):
 		}
 
 		with requests.Session() as s:
-			s.post('https://{0}/api/sessie'.format(schoolprefix), data = payload)
-			self.account_data = json.loads(s.get('https://{0}.magister.net/api/account'.format(schoolprefix)).text)
+			s.post('https://' + str(schoolprefix) + '.magister.net/api/sessie', data = payload)
+			self.account_data = json.loads(s.get('https://' + str(schoolprefix) + '.magister.net/api/account').text)
