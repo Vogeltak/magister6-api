@@ -18,7 +18,7 @@ def to_utc_string(datetime):
 	"""
 		Converts a DateTime object into an UTC String.
 
-		Paramters:
+		Parameters:
 			datetime - The DateTime object to convert.
 	"""
 	return datetime.strftime("%Y-%m-%dT%H:%M:%S.0000000Z")

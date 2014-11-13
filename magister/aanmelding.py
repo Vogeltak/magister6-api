@@ -32,4 +32,6 @@ class Aanmelding(object):
 		# Groep is a sub object, TODO implement it correctly
 		obj.profiel = raw["Profiel"]
 		obj.profiel2 = raw["Profiel2"]
-		obj.aan_bron_melden = raw["AanBrondMelden"]
+		obj.aan_bron_melden = raw["AanBronMelden"]
+
+		return obj
