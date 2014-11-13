@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import requests, json
-from . import appointment, roosterwijziging
+from . import appointment, roosterwijziging, aanmelding
 
 class Magister(object):
 	account_data = None
@@ -24,7 +24,7 @@ class Magister(object):
 		self.schoolprefix = schoolprefix
 		self.username = username
 		self.password = password
-		self.__sesion = requests.Session()
+		self.__session = requests.Session()
 
 		payload = {
 			'Gebruikersnaam': username,
@@ -32,8 +32,10 @@ class Magister(object):
 			'IngelogdBlijven': str(stay_loggedin).lower()
 		}
 
-		with self.__sesion as s:
-			s.post('https://{0}.magister.net/api/sessie'.format(schoolprefix), data = payload)
+		with self.__session as s:
+			res = s.post('https://{0}.magister.net/api/sessie'.format(schoolprefix), data = payload)
+			if res.status_code == 403 and res.json()["Status"] == 1: raise Exception("Wrong username and/or password.")
+
 			self.account_data = json.loads(s.get('https://{0}.magister.net/api/account'.format(schoolprefix)).text)
 
 			id = self.account_data["Persoon"]["Id"]
@@ -53,8 +55,8 @@ class Magister(object):
 		def dateConvert(d): return "{0}-{1}-{2}".format(str(d.year).zfill(2), str(d.month).zfill(2), str(d.day).zfill(2))
 
 		url = "{0}/afspraken?van={1}&tot={2}".format(self.__person_url, dateConvert(begin), dateConvert(end))
-		with self.__sesion as s:
-			return [appointment.Appointment.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
+		with self.__session as s:
+			return [appointment.Appointment.convert_raw(self, a) for a in s.get(url).json()["Items"]]
 
 	# What is it in English?
 	def getRoosterwijzigingen(self):
@@ -65,7 +67,7 @@ class Magister(object):
 		"""
 		url = "{0}/roosterwijzigingen".format(self.__person_url)
 		with self.__session as s:
-			return [roosterwijziging.Roosterwijziging.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
+			return [roosterwijziging.Roosterwijziging.convert_raw(self, a) for a in s.get(url).json()["Items"]]
 
 	def getAanmeldingen(self):
 		"""
@@ -74,4 +76,4 @@ class Magister(object):
 		"""
 		url = "{0}/aanmeldingen".format(self.__person_url)
 		with self.__session as s:
-			return [aanmelding.Aanmelding.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
+			return [aanmelding.Aanmelding.convert_raw(self, a) for a in s.get(url).json()["Items"]]
