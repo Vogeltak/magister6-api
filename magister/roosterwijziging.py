@@ -21,6 +21,29 @@ class Roosterwijziging(object):
 
 	def convert_raw(magister, raw):
 		obj = Roosterwijziging(magister)
-		"""
-			I don't have any 'roosterwijzigingen' right now, so I don't know how the structure looks like
-		"""
+		
+		obj.id = raw["Id"]
+		obj.start = raw["Start"]
+		obj.einde = raw["Einde"]
+		obj.beginBySchoolHour = raw["LesuurVan"]
+		obj.endBySchoolHour = raw["LesuurTotMet"]
+		obj.fullday = raw["DuurtHeleDag"]
+		obj.description = raw["Omschrijving"]
+		obj.location = raw["Lokatie"]
+		obj.status = raw["Status"]
+		obj.type = raw["Type"]
+		obj.displayType = raw["WeergaveType"]
+		obj.content = raw["Inhoud"]
+		obj.infoType = raw["InfoType"]
+		obj.notes = raw["Aantekening"]
+		obj.isDone = raw["Afgerond"]
+		# --These are seperate objects--
+		# obj.classes
+		# obj.teachers
+		# obj.classRooms
+		# obj.groups
+		obj.appointmentId = raw["OpdrachtId"]
+		obj.hasAttachments = raw["HeeftBijlagen"]
+		obj.attachments = raw["Bijlagen"]
+
+		return obj
