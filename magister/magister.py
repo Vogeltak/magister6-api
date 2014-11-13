@@ -40,7 +40,7 @@ class Magister(object):
 			self.__person_url = "https://{0}.magister.net/api/personen/{1}".format(schoolprefix, id)
 			self.__pupil_url = "https://{0}.magister.net/api/leerlingen/{1}".format(schoolprefix, id)
 
-	def appointments(self, begin, end = None):
+	def getAppointments(self, begin, end = None):
 		"""
 			Get's the appointments from Magister
 
@@ -57,7 +57,7 @@ class Magister(object):
 			return [appointment.Appointment.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
 
 	# What is it in English?
-	def roosterwijzigingen(self):
+	def getRoosterwijzigingen(self):
 		"""
 			Get's the 'roosterwijzigingen' from Magister
 
@@ -66,3 +66,12 @@ class Magister(object):
 		url = "{0}/roosterwijzigingen".format(self.__person_url)
 		with self.__session as s:
 			return [roosterwijziging.Roosterwijziging.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
+
+	def getAanmeldingen(self):
+		"""
+			Get's the aanmeldingen from Magister
+
+		"""
+		url = "{0}/aanmeldingen".format(self.__person_url)
+		with self.__session as s:
+			return [aanmelding.Aanmelding.convert_raw(self, a) for a in json.loads(s.get(url).text)["Items"]]
