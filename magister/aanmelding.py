@@ -23,13 +23,15 @@ class Aanmelding(object):
 		obj = Aanmelding(magister)
 
 		obj.id = raw["Id"]
-		# Links is a sub object, TODO implement it correctly
+		obj.links__vakken = raw["Links"][0]["Href"]
 		obj.leerling_id = raw["LeerlingId"]
 		obj.start = raw["Start"]
 		obj.einde = raw["Einde"]
 		obj.lesperiode = raw["Lesperiode"]
-		# Studie is a sub object, TODO implement it correctly
-		# Groep is a sub object, TODO implement it correctly
+		obj.study__id = raw["Studie"]["Id"]
+		obj.study__description = raw["Studie"]["Omschrijving"]
+		obj.group__id = raw["Groep"]["Id"]
+		obj.group__description = raw["Groep"]["Omschrijving"]
 		obj.profiel = raw["Profiel"]
 		obj.profiel2 = raw["Profiel2"]
 		obj.aan_bron_melden = raw["AanBronMelden"]

@@ -25,4 +25,4 @@ m = magister.Magister(school_prefix, username, password)
 
 print("Goedendag " + str(m.account_data['Persoon']['Roepnaam']))
 print(m.getAppointments(datetime.now())[3].description)
-print(m.getAanmeldingen()[4].id)
+print(m.getAanmeldingen()[4].group__description)
