@@ -21,7 +21,7 @@ class Roosterwijziging(object):
 
 	def convert_raw(magister, raw):
 		obj = Roosterwijziging(magister)
-		
+
 		obj.id = raw["Id"]
 		obj.start = raw["Start"]
 		obj.einde = raw["Einde"]
@@ -37,7 +37,7 @@ class Roosterwijziging(object):
 		obj.infoType = raw["InfoType"]
 		obj.notes = raw["Aantekening"]
 		obj.isDone = raw["Afgerond"]
-		# --These are seperate objects--
+		# --These are seperate objects-- TODO: store the values of these objects
 		# obj.classes
 		# obj.teachers
 		# obj.classRooms
