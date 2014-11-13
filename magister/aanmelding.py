@@ -14,15 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from magister import *
-from datetime import datetime
+class Aanmelding(object):
 
-school_prefix = input('School prefix: ')
-username = input('Gebruikersnaam: ')
-password = input('Wachtwoord: ')
+	def __init__(self, magister):
+		self.magister = magister
 
-m = magister.Magister(school_prefix, username, password)
+	def convert_raw(magister, raw):
+		obj = Aanmelding(magister)
 
-print("Goedendag " + str(m.account_data['Persoon']['Roepnaam']))
-print(m.getAppointments(datetime.now())[3].description)
-print(m.getAanmeldingen()[4].id)
+		obj.id = raw["Id"]
+		# Links is a sub object, TODO implement it correctly
+		obj.leerling_id = raw["LeerlingId"]
+		obj.start = raw["Start"]
+		obj.einde = raw["Einde"]
+		obj.lesperiode = raw["Lesperiode"]
+		# Studie is a sub object, TODO implement it correctly
+		# Groep is a sub object, TODO implement it correctly
+		obj.profiel = raw["Profiel"]
+		obj.profiel2 = raw["Profiel2"]
+		obj.aan_bron_melden = raw["AanBrondMelden"]
