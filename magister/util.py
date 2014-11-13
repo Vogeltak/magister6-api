@@ -14,22 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-class Aanmelding(object):
+def to_utc_string(datetime):
+	"""
+		Converts a DateTime object into an UTC String.
 
-	def __init__(self, magister):
-		self.magister = magister
-
-	def convert_raw(magister, raw):
-		obj = Aanmelding(magister)
-
-		obj.id = raw["Id"]
-		# Links is a sub object, TODO implement it correctly
-		obj.leerling_id = raw["LeerlingId"]
-		obj.start = raw["Start"]
-		obj.einde = raw["Einde"]
-		obj.lesperiode = raw["Lesperiode"]
-		# Studie is a sub object, TODO implement it correctly
-		# Groep is a sub object, TODO implement it correctly
-		obj.profiel = raw["Profiel"]
-		obj.profiel2 = raw["Profiel2"]
-		obj.aan_bron_melden = raw["AanBrondMelden"]
+		Paramters:
+			datetime - The DateTime object to convert.
+	"""
+	return datetime.strftime("%Y-%m-%dT%H:%M:%S.0000000Z")

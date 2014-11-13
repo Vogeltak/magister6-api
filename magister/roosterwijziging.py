@@ -15,10 +15,10 @@ limitations under the License.
 """
 
 class Roosterwijziging(object):
-
 	def __init__(self, magister):
 		self.magister = magister
 
+	@staticmethod
 	def convert_raw(magister, raw):
 		obj = Roosterwijziging(magister)
 
