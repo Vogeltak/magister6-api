@@ -59,13 +59,18 @@ class Magister(object):
 			return [appointment.Appointment.convert_raw(self, a) for a in s.get(url).json()["Items"]]
 
 	# What is it in English?
-	def getRoosterwijzigingen(self):
+	def getRoosterwijzigingen(self, begin, end = None):
 		"""
 			Get's the 'roosterwijzigingen' from Magister
 
 			There will probably need to be an option to ask for 'roosterwijzigingen' for a specific day
 		"""
-		url = "{0}/roosterwijzigingen".format(self.__person_url)
+		if end is None: 
+			end = begin
+
+		def dateConvert(d): return "{0}-{1}-{2}".format(str(d.year).zfill(2), str(d.month).zfill(2), str(d.day).zfill(2))
+
+		url = "{0}/roosterwijzigingen?van={1}&tot={2}".format(self.__person_url, dateConvert(begin), dateConvert(end))
 		with self.__session as s:
 			return [roosterwijziging.Roosterwijziging.convert_raw(self, a) for a in s.get(url).json()["Items"]]
 
