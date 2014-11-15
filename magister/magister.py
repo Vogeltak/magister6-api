@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import requests, json
-from . import appointment, roosterwijziging, aanmelding
+from . import appointment, roosterwijziging, aanmelding, person
 
 class Magister(object):
 	account_data = None
@@ -44,7 +44,7 @@ class Magister(object):
 
 	def getAppointments(self, begin, end = None):
 		"""
-			Get's the appointments from Magister
+			Gets the appointments from Magister
 
 			Parameters:
 				begin - The start date of the appointments.
@@ -61,7 +61,7 @@ class Magister(object):
 	# What is it in English?
 	def getRoosterwijzigingen(self, begin, end = None):
 		"""
-			Get's the 'roosterwijzigingen' from Magister
+			Gets the 'roosterwijzigingen' from Magister
 
 			There will probably need to be an option to ask for 'roosterwijzigingen' for a specific day
 		"""
@@ -76,9 +76,31 @@ class Magister(object):
 
 	def getAanmeldingen(self):
 		"""
-			Get's the aanmeldingen from Magister
+			Gets the aanmeldingen from Magister
 
 		"""
 		url = "{0}/aanmeldingen".format(self.__person_url)
 		with self.__session as s:
 			return [aanmelding.Aanmelding.convert_raw(self, a) for a in s.get(url).json()["Items"]]
+
+	def getPersons(self, query, personType = None):
+		"""
+			Gets an List of Persons that matches the given profile.
+
+			Paramters:
+				query - The query the persons must match to (e.g: Surname, Name, ...). Should at least be 3 chars long.
+				personType - The type the person must have. If none is given it will search for both Teachers and Pupils.
+		"""
+		if type(query) is not str or len(query) < 3: return []
+		if personType is None: return self.getPersons(query, 3) + self.getPersons(query, 4)
+
+		personType = {
+			1: "Groep",
+			3: "Docent",
+			4: "Leerling",
+			8: "Project"
+		}.get(person.Person.convert_type(personType), "Overig")
+
+		url = "{0}/contactpersonen?contactPersoonType={1}&q={2}".format(self.__person_url, personType, query)
+		with self.__session as s:
+			return [ person.Person.convert_raw(self, p) for p in s.get(url).json()["Items"] ]

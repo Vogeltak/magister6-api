@@ -50,7 +50,7 @@ class Appointment(object):
 		obj["Aantekening"] = self.notes
 		obj["Afgerond"] = self.is_done
 		obj["Lokalen"] = [ { "Naam": c } for c in self.class_rooms ]
-		#obj["Docenten"] = [ p._toMagisterStyle() for p in self.teachers ]
+		obj["Docenten"] = [ p.__Person_to_magister() for p in self.teachers ]
 		obj["Vakken"] = [ { "Naam": c } for c in self.classes ]
 		obj["Groepen"] = self.groups
 		obj["OpdrachtId"] = self.appointment_id
@@ -78,7 +78,7 @@ class Appointment(object):
 		obj.notes = raw["Aantekening"]
 		obj._is_done = raw["Afgerond"]
 		obj.classes = [c["Naam"] for c in raw["Vakken"]] if raw["Vakken"] is not None else []
-		#obj.teachers = [person.Person._convertRaw(self, p) for p in raw["Docenten"]] if raw["Docenten"] is not None else []
+		obj.teachers = [person.Person.convert_raw(self, p) for p in raw["Docenten"]] if raw["Docenten"] is not None else []
 		obj.class_rooms = [c["Naam"] for c in raw["Lokalen"]] if raw["Lokalen"] is not None else []
 		obj.groups = raw["Groepen"]
 		obj.appointment_id = raw["OpdrachtId"]
