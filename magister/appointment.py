@@ -50,7 +50,7 @@ class Appointment(object):
 		obj["Aantekening"] = self.notes
 		obj["Afgerond"] = self.is_done
 		obj["Lokalen"] = [ { "Naam": c } for c in self.class_rooms ]
-		obj["Docenten"] = [ p.__Person_to_magister() for p in self.teachers ]
+		obj["Docenten"] = [ p._Person__to_magister() for p in self.teachers ]
 		obj["Vakken"] = [ { "Naam": c } for c in self.classes ]
 		obj["Groepen"] = self.groups
 		obj["OpdrachtId"] = self.appointment_id
