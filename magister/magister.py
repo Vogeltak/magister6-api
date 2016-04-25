@@ -25,7 +25,11 @@ class Magister(object):
 		self.username = username
 		self.password = password
 		self.__session = requests.Session()
-
+		
+		headers = {
+			'Content-Type': 'application/json'	
+		}
+		
 		payload = {
 			'Gebruikersnaam': username,
 			'Wachtwoord': password,
@@ -33,7 +37,7 @@ class Magister(object):
 		}
 
 		with self.__session as s:
-			res = s.post('https://{0}.magister.net/api/sessie'.format(schoolprefix), data = payload)
+			res = s.post('https://{0}.magister.net/api/sessie'.format(schoolprefix), headers = headers, data = json.dumps(payload))
 			if res.status_code == 403 and res.json()["Status"] == 1: raise Exception("Wrong username and/or password.")
 
 			self.account_data = json.loads(s.get('https://{0}.magister.net/api/account'.format(schoolprefix)).text)
